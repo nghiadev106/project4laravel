@@ -55,6 +55,8 @@
                         </div>
                     </div>
                     <div class="detail-info">
+                        <form action="{{route('cart.addcart')}}" method="POST">
+                            {{ csrf_field() }}
                         <div class="product-rating">
                             <i class="fa fa-star" aria-hidden="true"></i>
                             <i class="fa fa-star" aria-hidden="true"></i>
@@ -74,11 +76,18 @@
                         <div class="wrap-social">
                             <a class="link-socail" href="#"><img src="{{url('public')}}/frontend//images/social-list.png" alt=""></a>
                         </div>
-                        @if ($product->product_price_sale > 0)
-                            <div class="wrap-price"><ins><p class="product-price">{{ $product->product_price_sale }}</p></ins> <del><p class="product-price">{{ $product->product_price }}</p></del></div>
-                        @else
-                            <div class="wrap-price"><span class="product-price">{{ $product->product_price}}</span></div>
-                        @endif
+                       
+                            <input type="hidden" name="product_id" id="product_id" value="{{ $product->id }}">
+                            <input type="hidden" name="product_name" id="product_name" value="{{ $product->name }}">
+                          
+                            @if ($product->product_price_sale > 0)
+                                <input type="hidden" name="product_price" value="{{ $product->product_price_sale }}">
+                                <div class="wrap-price"><ins><p class="product-price">{{ $product->product_price_sale }}</p></ins> <del><p class="product-price">{{ $product->product_price }}</p></del></div>
+                            @else
+                                <input type="hidden" name="product_price" value="{{ $product->product_price }}">
+                                <div class="wrap-price"><span class="product-price">{{ $product->product_price}}</span></div>
+                            @endif
+                       
                         <div class="stock-info in-stock">
                             <p class="availability">Availability: <b>In Stock</b></p>
                         </div>
@@ -92,12 +101,13 @@
                             </div>
                         </div>
                         <div class="wrap-butons">
-                            <a href="#" class="btn add-to-cart">Add to Cart</a>
+                            <button type="submit" class="btn add-to-cart">Add to Cart</button>  
                             <div class="wrap-btn">
                                 <a href="#" class="btn btn-compare">Add Compare</a>
                                 <a href="#" class="btn btn-wishlist">Add Wishlist</a>
                             </div>
                         </div>
+                    </form>
                     </div>
                     <div class="advance-info">
                         <div class="tab-control normal">
