@@ -19,8 +19,12 @@ Route::get('/shop','HomeController@shop')->name('home.shop');
 Route::get('/shop','HomeController@shop')->name('home.shop');
 Route::get('/product/{slug}/{id}','HomeController@detail')->name('home.detail');
 
-Route::get('/add-to-cart/{id}','OrderController@addToCart')->name('order.addtocart');
-Route::get('/cart','OrderController@showCart')->name('order.showcart');
+Route::get('/add-to-cart/{id}','CartController@addToCart')->name('cart.addtocart');
+Route::post('/add-cart','CartController@addCart')->name('cart.addcart');
+Route::get('/cart','CartController@showCart')->name('cart.showcart');
+Route::post('/cart/increaseQuantity/{rowId}','CartController@increaseQuantity')->name('cart.increase');
+Route::post('/cart/decreaseQuantity/{rowId}','CartController@decreaseQuantity')->name('cart.decrease');
+Route::post('/cart/delete/{rowId}','CartController@delete')->name('cart.delete');
 
 Route::group(['prefix'=>'admin'],function(){
 	Route::get('/','AdminController@index')->name('admin.dashboard');

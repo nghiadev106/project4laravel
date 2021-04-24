@@ -125,7 +125,9 @@
 								<a href="#" class="link-direction">
 									<i class="fa fa-shopping-basket" aria-hidden="true"></i>
 									<div class="left-info">
-										<span class="index">4 items</span>
+										@if (Cart::count()>0)
+										<span class="index">{{Cart::count()}} items</span>
+										@endif
 										<span class="title">CART</span>
 									</div>
 								</a>
@@ -168,7 +170,7 @@
 									<a href="{{route('home.shop')}}" class="link-term mercado-item-title">Shop</a>
 								</li>
 								<li class="menu-item">
-									<a href="{{route('order.showcart')}}" class="link-term mercado-item-title">Cart</a>
+									<a href="{{route('cart.showcart')}}" class="link-term mercado-item-title">Cart</a>
 								</li>
 								<li class="menu-item">
 									<a href="checkout.html" class="link-term mercado-item-title">Checkout</a>

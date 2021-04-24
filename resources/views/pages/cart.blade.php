@@ -14,38 +14,52 @@
                 $total=0;
             @endphp
             <div class="wrap-iten-in-cart">
-                @if(session()->get('cart'))
+                @if(Cart::count() > 0)
                 <h3 class="box-title">Products Name</h3>
                 <ul class="products-cart">
                     
-                    @foreach($cart as $key => $cartItem)
-                        @php
+                    @foreach (Cart::content() as $item)
+                        {{-- @php
                             $total+= $cartItem['price']*$cartItem['quantity'];
-                        @endphp
+                        @endphp --}}
                     <li class="pr-cart-item">
                         <div class="product-image">
-                            <figure><img src="{{url('public/uploads/products')}}/{{ $cartItem['image'] }}" alt=""></figure>
+                            <figure><img src="{{url('public/uploads/products')}}/{{$item->model->product_image}}" alt=""></figure>
                         </div>
                         <div class="product-name">
-                            <a class="link-to-product" href="#">{{ $cartItem['name']}}</a>
+                            <a class="link-to-product" href="{{URL::to('/product/'.$item->model->slug.'/'.$item->model->id)}}">{{ $item->model->name}}</a>
                         </div>
-                        <div class="price-field produtc-price"><p class="price">{{number_format( $cartItem['price'] )}}đ</p></div>
+                        @if(number_format( $item->model->product_price_sale)>0)
+                            <div class="price-field produtc-price"><p class="price">{{number_format( $item->model->product_price_sale)}}đ</p></div>
+                        @else
+                            <div class="price-field produtc-price"><p class="price">{{number_format( $item->model->product_price)}}đ</p></div>
+                        @endif
+                       
                         <div class="quantity">
                             <div class="quantity-input">
-                                <input type="text" name="product-quatity" value="{{ $cartItem['quantity'] }}" data-max="120" pattern="[0-9]*" >									
-                                <a class="btn btn-increase" href="#"></a>
-                                <a class="btn btn-reduce" href="#"></a>
+                                <input type="text" name="product-quatity" value="{{$item->qty}}" data-max="120" pattern="[0-9]*" >									
+                                <a class="btn btn-increase" href="{{route('cart.increase',$item->rowId)}}"></a>
+                                <a class="btn btn-reduce" href="{{route('cart.decrease',$item->rowId)}}"></a>
                             </div>
                         </div>
-                        <div class="price-field sub-total"><p class="price">{{number_format( $cartItem['price']*$cartItem['quantity'] )}}đ</p></div>
+                        <div class="price-field sub-total"><p class="price">{{number_format( $item->subtotal)}}</p></div>
                         <div class="delete">
-                            <a href="#" class="btn btn-delete" title="">
+                            <a href="{{route('cart.delete',$item->rowId)}}" class="btn btn-delete" title="">
                                 <span>Delete from your cart</span>
                                 <i class="fa fa-times-circle" aria-hidden="true"></i>
                             </a>
                         </div>
                     </li>
-                    @endforeach										
+                    @endforeach		
+                    <form action="" method="POST" id="form-increase">
+                        @csrf
+                    </form>	
+                    <form action="" method="POST" id="form-decrease">
+                        @csrf
+                    </form>	
+                    <form action="" method="POST" id="form-delete">
+                        @csrf
+                    </form>							
                 </ul>
                 @else
                     
@@ -59,9 +73,10 @@
             <div class="summary">
                 <div class="order-summary">
                     <h4 class="title-box">Order Summary</h4>
-                    <p class="summary-info"><span class="title">Subtotal</span><b class="index">@php echo number_format($total);@endphp đ</b></p>
+                    <p class="summary-info"><span class="title">Subtotal</span><b class="index">{{Cart::subtotal()}}</b></p>
+                    <p class="summary-info"><span class="title">Tax</span><b class="index">{{Cart::tax()}}</b></p>
                     <p class="summary-info"><span class="title">Shipping</span><b class="index">Free Shipping</b></p>
-                    <p class="summary-info total-info "><span class="title">Total</span><b class="index">@php echo number_format($total);@endphp đ</b></p>
+                    <p class="summary-info total-info "><span class="title">Total</span><b class="index">{{Cart::total()}}</b></p>
                 </div>
                 <div class="checkout-info">
                     <label class="checkbox-field">
@@ -231,4 +246,29 @@
 
 </main>
 <!--main area-->
+@stop
+
+@section('js')
+<script>
+    $('.btn-increase').click(function(ev){
+            ev.preventDefault();
+            var _href=$(this).attr('href');
+            $('form#form-increase').attr('action',_href);
+            $('form#form-increase').submit();
+        });
+
+    $('.btn-reduce').click(function(ev){
+            ev.preventDefault();
+            var _href=$(this).attr('href');
+            $('form#form-decrease').attr('action',_href);
+            $('form#form-decrease').submit();
+        });
+    $('.btn-delete').click(function(ev){
+            ev.preventDefault();
+            var _href=$(this).attr('href');
+            $('form#form-delete').attr('action',_href);
+            $('form#form-delete').submit();
+        });    
+        
+</script>  
 @stop

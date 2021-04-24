@@ -58,7 +58,12 @@
             <div class="wrap-products slide-carousel owl-carousel style-nav-1 equal-container " data-items="5" data-loop="false" data-nav="true" data-dots="false" data-responsive='{"0":{"items":"1"},"480":{"items":"2"},"768":{"items":"3"},"992":{"items":"4"},"1200":{"items":"5"}}'>
                 @foreach($product_sale as $key => $pro)
                 <div class="product product-style-2 equal-elem ">
-                    <div class="product-thumnail">
+                    <form action="{{route('cart.addcart')}}" method="POST">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="product_id" id="product_id" value="{{ $pro->id }}">
+                        <input type="hidden" name="product_name" id="product_name" value="{{ $pro->name }}">
+                       
+                        <div class="product-thumnail">
                         <a href="{{URL::to('/product/'.$pro->slug.'/'.$pro->id)}}" title="{{ $pro->name }}">
                             <figure><img src="{{url('public/uploads/products')}}/{{ $pro->product_image }}" style="height: 214px;width:214px;"  alt="{{ $pro->name }}"></figure>
                         </a>
@@ -72,16 +77,19 @@
                     <div class="product-info">
                         <a href="{{URL::to('/product/'.$pro->slug.'/'.$pro->id)}}" class="product-name"><span>{{ $pro->name }}</span></a>
                         @if ($pro->product_price_sale > 0){
+                            <input type="hidden" name="product_price" value="{{ $pro->product_price_sale }}">
                             <div class="wrap-price"><ins><p class="product-price">{{ $pro->product_price_sale }}</p></ins> <del><p class="product-price">{{ $pro->product_price }}</p></del></div>
                         }
                         @else{
+                            <input type="hidden" name="product_price" value="{{ $pro->product_price }}">
                             <div class="wrap-price"><span class="product-price">{{ $pro->product_price}}</span></div>
                         }
                         @endif
                     </div>
                     <div class="wrap-butons">
-                        <a href="#" data-url="{{route('order.addtocart',['id'=>$pro->id])}}" class="btn add-to-cart">Add to Cart</a>                        
+                        <button type="submit" class="btn add-to-cart">Add to Cart</button>                        
                     </div>
+                </form>
                 </div>  
                 @endforeach            
             </div>
@@ -102,31 +110,39 @@
                             <div class="wrap-products slide-carousel owl-carousel style-nav-1 equal-container" data-items="5" data-loop="false" data-nav="true" data-dots="false" data-responsive='{"0":{"items":"1"},"480":{"items":"2"},"768":{"items":"3"},"992":{"items":"4"},"1200":{"items":"5"}}' >
                                 @foreach($product_latest as $key => $pro)
                                     <div class="product product-style-2 equal-elem ">
-                                        <div class="product-thumnail">
-                                            <a href="{{URL::to('/product/'.$pro->slug.'/'.$pro->id)}}" title="{{ $pro->name}}">
-                                                <figure><img src="{{url('public/uploads/products')}}/{{ $pro->product_image }}" style="height: 214px;width:214px;" alt="{{ $pro->name}}"></figure>
-                                            </a>
-                                            <div class="group-flash">
-                                                <span class="flash-item new-label">new</span>
+                                        <form action="{{route('cart.addcart')}}" method="POST">
+                                            {{ csrf_field() }}
+                                            <input type="hidden" name="product_id" id="product_id" value="{{ $pro->id }}">
+                                            <input type="hidden" name="product_name" id="product_name" value="{{ $pro->name }}">
+                                           
+                                            <div class="product-thumnail">
+                                                <a href="{{URL::to('/product/'.$pro->slug.'/'.$pro->id)}}" title="{{ $pro->name}}">
+                                                    <figure><img src="{{url('public/uploads/products')}}/{{ $pro->product_image }}" style="height: 214px;width:214px;" alt="{{ $pro->name}}"></figure>
+                                                </a>
+                                                <div class="group-flash">
+                                                    <span class="flash-item new-label">new</span>
+                                                </div>
+                                                <div class="wrap-btn">
+                                                    <a href="{{URL::to('/product/'.$pro->slug.'/'.$pro->id)}}" class="function-link">quick view</a>
+                                                </div>
                                             </div>
-                                            <div class="wrap-btn">
-                                                <a href="{{URL::to('/product/'.$pro->slug.'/'.$pro->id)}}" class="function-link">quick view</a>
+                                            <div class="product-info">
+                                                <a href="{{URL::to('/product/'.$pro->slug.'/'.$pro->id)}}" class="product-name"><span>{{ $pro->slug}}</span></a>
+                                                @if ($pro->product_price_sale > 0){
+                                                    <input type="hidden" name="product_price" value="{{ $pro->product_price_sale }}">
+                                                    <div class="wrap-price"><ins><p class="product-price">{{ $pro->product_price_sale }}</p></ins> <del><p class="product-price">{{ $pro->product_price }}</p></del></div>
+                                                }
+                                                @else{
+                                                    <input type="hidden" name="product_price" value="{{ $pro->product_price }}">
+                                                    <div class="wrap-price"><span class="product-price">{{ $pro->product_price}}</span></div>
+                                                }
+                                                @endif
                                             </div>
-                                        </div>
-                                        <div class="product-info">
-                                            <a href="{{URL::to('/product/'.$pro->slug.'/'.$pro->id)}}" class="product-name"><span>{{ $pro->slug}}</span></a>
-                                            @if ($pro->product_price_sale > 0){
-                                                <div class="wrap-price"><ins><p class="product-price">{{ $pro->product_price_sale }}</p></ins> <del><p class="product-price">{{ $pro->product_price }}</p></del></div>
-                                            }
-                                            @else{
-                                                <div class="wrap-price"><span class="product-price">{{ $pro->product_price}}</span></div>
-                                            }
-                                            @endif
-                                        </div>
-                                        <div class="wrap-butons">
-                                            <a href="#" data-url="{{route('order.addtocart',['id'=>$pro->id])}}" class="btn add-to-cart">Add to Cart</a>
-                                        </div>
-                                    </div>     
+                                            <div class="wrap-butons">
+                                                <button type="submit" class="btn add-to-cart">Add to Cart</button>       
+                                            </div>
+                                        </form>  
+                                    </div>                       
                                 @endforeach              
                             </div>
                         </div>							
@@ -854,23 +870,23 @@
     function addToCart(event){
         event.preventDefault();
         let url=$(this).data('url');
-      //  alert(url);
+        alert(url);
 
         $.ajax({
             type:"GET",
             url:url,
             dataType:'json',
             success:function(data){
-                if(data.code===200){
-                    alert('Thêm giỏ hàng thành công');
-                }
+                // if(data.code===200){
+                //     //alert('Thêm giỏ hàng thành công');
+                // }
             },error:function(){
                 alert('Thêm giỏ hàng không thành công');
             }
         });
     }
     $(function(){
-        $('.add-to-cart').on('click',addToCart)
+        $('.add-cart').on('click',addToCart)
     });
 </script>  
 @stop
