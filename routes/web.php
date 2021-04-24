@@ -20,6 +20,7 @@ Route::get('/shop','HomeController@shop')->name('home.shop');
 Route::get('/product/{slug}/{id}','HomeController@detail')->name('home.detail');
 
 Route::get('/add-to-cart/{id}','OrderController@addToCart')->name('order.addtocart');
+Route::get('/cart','OrderController@showCart')->name('order.showcart');
 
 Route::group(['prefix'=>'admin'],function(){
 	Route::get('/','AdminController@index')->name('admin.dashboard');

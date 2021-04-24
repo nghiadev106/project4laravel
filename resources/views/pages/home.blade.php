@@ -80,9 +80,7 @@
                         @endif
                     </div>
                     <div class="wrap-butons">
-                        <form action="{{URL::to('/add-to-cart/'.$pro->id)}}">
-                            <button class="btn add-to-cart" type="submit">Add to Cart</button>
-                        </form>
+                        <a href="#" data-url="{{route('order.addtocart',['id'=>$pro->id])}}" class="btn add-to-cart">Add to Cart</a>                        
                     </div>
                 </div>  
                 @endforeach            
@@ -126,7 +124,7 @@
                                             @endif
                                         </div>
                                         <div class="wrap-butons">
-                                            <a href="#" class="btn add-to-cart">Add to Cart</a>
+                                            <a href="#" data-url="{{route('order.addtocart',['id'=>$pro->id])}}" class="btn add-to-cart">Add to Cart</a>
                                         </div>
                                     </div>     
                                 @endforeach              
@@ -849,4 +847,30 @@
     margin-top: 14px;
 }
 </style>
+@stop
+
+@section('js')
+<script>
+    function addToCart(event){
+        event.preventDefault();
+        let url=$(this).data('url');
+      //  alert(url);
+
+        $.ajax({
+            type:"GET",
+            url:url,
+            dataType:'json',
+            success:function(data){
+                if(data.code===200){
+                    alert('Thêm giỏ hàng thành công');
+                }
+            },error:function(){
+                alert('Thêm giỏ hàng không thành công');
+            }
+        });
+    }
+    $(function(){
+        $('.add-to-cart').on('click',addToCart)
+    });
+</script>  
 @stop

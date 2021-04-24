@@ -15,46 +15,43 @@ class OrderController extends Controller
      */
     public function addToCart($id)
     {
-        session()->flush();
         $product = Product::find($id);
-        //dd($product);
         if(!$product) {
             abort(404);
         }
         $cart = session()->get('cart');
-        // if cart is empty then this the first product
-        if(!$cart) {    
-            $cart = [
-                $id => [
+
+        if(isset($cart[$id])){
+            $cart[$id]['quantity']=$cart[$id]['quantity']+1;
+        }else{
+            if($product->product_price_sale>0){
+                $cart[$id] = [
                     "name" => $product->name,
-                    "quantity" => 1,
+                    "quantity" => 1,                
+                    "price" => $product->product_price_sale,
+                    "image" => $product->product_image
+                ];
+            }else{
+                $cart[$id] = [
+                    "name" => $product->name,
+                    "quantity" => 1,                
                     "price" => $product->product_price,
                     "image" => $product->product_image
-                    ]
-            ];
-            session()->put('cart', $cart);
-            return redirect()->back()->with('success', 'Product added to cart successfully!');
-        }
-        if(isset($cart[$id])){
-            $cart[$id]['quantity']++;
-            session()->put('cart', $cart);
-            return redirect()->back()->with('success', 'Product added to cart successfully!');
-        }
-
-        $cart[$id] = [
-            "name" => $product->name,
-            "quantity" => 1,
-            "price" => $product->product_price,
-            "image" => $product->product_image
-        ];
+                ];
+            }          
+        }      
         session()->put('cart', $cart);
-        dd($cart);
-        return redirect()->back()->with('success', 'Product added to cart successfully!');       
+        return response()->json(
+            [
+                'code'=>200,
+                'message'=>'success'
+            ], 200);   
     }
-    // public function index()
-    // {
-    //     //
-    // }
+    public function showCart()
+    {
+        $cart=session()->get('cart');
+        return view('pages.cart',compact('cart'));
+    }
 
     // /**
     //  * Show the form for creating a new resource.
