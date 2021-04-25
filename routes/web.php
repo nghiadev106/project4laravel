@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Providers\RouteServiceProvider;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/','HomeController@index')->name('home.index');
 
 Route::get('/shop','HomeController@shop')->name('home.shop');
-Route::get('/shop','HomeController@shop')->name('home.shop');
 Route::get('/product/{slug}/{id}','HomeController@detail')->name('home.detail');
 
 Route::get('/add-to-cart/{id}','CartController@addToCart')->name('cart.addtocart');
@@ -26,15 +26,45 @@ Route::post('/cart/increaseQuantity/{rowId}','CartController@increaseQuantity')-
 Route::post('/cart/decreaseQuantity/{rowId}','CartController@decreaseQuantity')->name('cart.decrease');
 Route::post('/cart/delete/{rowId}','CartController@delete')->name('cart.delete');
 
-Route::group(['prefix'=>'admin'],function(){
-	Route::get('/','AdminController@index')->name('admin.dashboard');
-	Route::get('/file','AdminController@file')->name('admin.file');
-	Route::resources([
-		'category'=>'CategoryController',
-		'product'=>'ProductController',
-		'account'=>'AccountController',
-		'banner'=>'BannerController',
-		'blog'=>'BlogController',
-		'order'=>'OrderController'		
-	]);
+
+Route::prefix('admin')->group(static function() {
+    Route::middleware(['auth:sanctum','verified','authadmin'])->group(static function () {
+		Route::get('/','AdminController@index')->name('admin.dashboard');
+		Route::get('/file','AdminController@file')->name('admin.file');
+		Route::resources([
+			'category'=>'CategoryController',
+			'product'=>'ProductController',
+			'account'=>'AccountController',
+			'banner'=>'BannerController',
+			'blog'=>'BlogController',
+			'order'=>'OrderController'		
+		]);
+    });
 });
+Route::middleware(['auth:sanctum', 'verified'])->get('/user/dashboard', function () {
+    return view('dashboard');
+})->name('user.dashboard');
+
+// Route::middleware(['auth:sanctum','verified'])->group(function(){
+//     Route::get('/user/dashboard',UserDashboardComponent::class)->name('user.dashboard');
+// });
+
+//For Admin
+// Route::middleware(['auth:sanctum','verified','authadmin'])->group(function(){
+//     Route::get('/admin/dashboard',AdminDashboardComponent::class)->name('admin.dashboard');    
+//     Route::get('/admin/categories',AdminCategoryComponent::class)->name('admin.categories');   
+//     Route::get('/admin/category/add',AdminAddCategoryComponent::class)->name('admin.addcategory') ;
+//     Route::get('/admin/category/edit/{category_slug}',AdminEditCategoryComponent::class)->name('admin.editcategory');
+//     Route::get('/admin/products',AdminProductComponent::class)->name('admin.products');        
+//     Route::get('/admin/product/add',AdminAddProductComponent::class)->name('admin.addproduct');    
+//     Route::get('/admin/product/edit/{product_slug}',AdminEditProductComponent::class)->name('admin.editproduct');
+    
+//     Route::get('/admin/slider',AdminHomeSliderComponent::class)->name('admin.homeslider');
+//     Route::get('/admin/slider/add',AdminAddHomeSliderComponent::class)->name('admin.addhomeslider');
+//     Route::get('/admin/slider/edit/{slide_id}',AdminEditHomeSliderComponent::class)->name('admin.edithomeslider');
+    
+//     Route::get('/admin/home-categories',AdminHomeCategoryComponent::class)->name('admin.homecategories');
+//     Route::get('/admin/sale',AdminSaleComponent::class)->name('admin.sale');
+    
+// });
+
