@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use Cart;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -42,10 +43,21 @@ class CartController extends Controller
                 'message'=>'success'
             ], 200);   
     }
+
+    public function checkout(){
+        if(Auth::check()){
+            $product=Product::inRandomOrder()->limit(10)->get();
+            return view('pages.checkout',compact('product'));
+        }else{
+            return redirect()->route('login');
+        }
+    }
+
     public function showCart()
     {
+        $product=Product::inRandomOrder()->limit(10)->get();
         $cart=session()->get('cart');
-        return view('pages.cart',compact('cart'));
+        return view('pages.cart',compact('cart','product'));
     }
 
     public function addCart(Request $request){

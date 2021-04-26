@@ -17,6 +17,7 @@ use App\Providers\RouteServiceProvider;
 Route::get('/','HomeController@index')->name('home.index');
 
 Route::get('/shop','HomeController@shop')->name('home.shop');
+
 Route::get('/product/{slug}/{id}','HomeController@detail')->name('home.detail');
 
 Route::get('/add-to-cart/{id}','CartController@addToCart')->name('cart.addtocart');
@@ -26,6 +27,7 @@ Route::post('/cart/increaseQuantity/{rowId}','CartController@increaseQuantity')-
 Route::post('/cart/decreaseQuantity/{rowId}','CartController@decreaseQuantity')->name('cart.decrease');
 Route::post('/cart/delete/{rowId}','CartController@delete')->name('cart.delete');
 
+Route::get('/checkout','CartController@checkout')->name('checkout');
 
 Route::prefix('admin')->group(static function() {
     Route::middleware(['auth:sanctum','verified','authadmin'])->group(static function () {
