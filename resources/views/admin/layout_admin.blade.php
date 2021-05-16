@@ -327,7 +327,7 @@
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu" data-widget="tree">
                     <li>
-                        <a href="admin.dashboard">
+                        <a href="{{ route('admin.dashboard') }}">
                             <i class="fa fa-dashboard"></i> <span>Trang chủ</span>
                         </a>
                     </li>
@@ -347,6 +347,12 @@
                         <a href="{{ route('blog.index') }}">
                             <i class="fa fa-files-o"></i>
                             <span>Bài viết</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('blog.index') }}">
+                            <i class="fa fa-files-o"></i>
+                            <span>Đơn hàng</span>
                         </a>
                     </li>
                     <li>

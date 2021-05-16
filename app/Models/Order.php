@@ -15,6 +15,16 @@ class Order extends Model
     // }
     protected $table='tbl_order';
 
+    
+    protected $fillable = [
+        'user_id',
+        'name',
+        'email',
+        'address',
+        'mobile',
+        'message'
+    ];
+
     public function user(){
         return $this->belongsTo(User::class);
     }

@@ -48,7 +48,7 @@
                             <thead>
                                 <tr>
                                     <th>STT</th>
-                                    <th>Tên sản phẩm</th>
+                                    <th>Tên bài viết</th>
                                     <th>Mô tả</th>
                                     <th>Trạng thái</th>
                                     <th>Ảnh</th>

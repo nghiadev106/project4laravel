@@ -16,7 +16,7 @@
             @if(Cart::count() > 0)
                 <div class="wrap-iten-in-cart">
                 
-                    <h3 class="box-title">Products Name</h3>
+                    <h3 class="box-title">Tên sản phẩm</h3>
                     <ul class="products-cart">
                         
                         @foreach (Cart::content() as $item)
@@ -66,11 +66,11 @@
 
                 <div class="summary">
                     <div class="order-summary">
-                        <h4 class="title-box">Order Summary</h4>
-                        <p class="summary-info"><span class="title">Subtotal</span><b class="index">{{Cart::subtotal()}}</b></p>
-                        <p class="summary-info"><span class="title">Tax</span><b class="index">{{Cart::tax()}}</b></p>
+                        <h4 class="title-box">Tóm tắt đơn hàng</h4>
+                        <p class="summary-info"><span class="title">Subtotal</span><b class="index">{{number_format(Cart::subtotal(0,'.',''))}}đ</b></p>
+                        <p class="summary-info"><span class="title">Tax</span><b class="index">{{number_format(Cart::tax(0,'.',''))}}đ</b></p>
                         <p class="summary-info"><span class="title">Shipping</span><b class="index">Free Shipping</b></p>
-                        <p class="summary-info total-info "><span class="title">Total</span><b class="index">{{Cart::total()}}</b></p>
+                        <p class="summary-info total-info "><span class="title">Total</span><b class="index">{{number_format(Cart::total(0,'.',''))}}đ</b></p>
                     </div>
                     <div class="checkout-info">
                         <label class="checkbox-field">

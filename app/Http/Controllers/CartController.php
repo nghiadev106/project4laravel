@@ -44,15 +44,6 @@ class CartController extends Controller
             ], 200);   
     }
 
-    public function checkout(){
-        if(Auth::check()){
-            $product=Product::inRandomOrder()->limit(10)->get();
-            return view('pages.checkout',compact('product'));
-        }else{
-            return redirect()->route('login');
-        }
-    }
-
     public function showCart()
     {
         $product=Product::inRandomOrder()->limit(10)->get();

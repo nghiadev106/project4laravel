@@ -76,7 +76,7 @@
 										                <?php
 										                 }else{
 										                ?>  
-										                 <a href="{{URL::to('/active-product/'.$pro->product_id)}}" class="btn-success">Hoạt động</span></a>
+										                 <a href="{{URL::to('/active-product/'.$pro->product_id)}}" class="btn-success">Còn hàng</span></a>
 										                <?php
 										               }
 										              ?>
