@@ -350,7 +350,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('blog.index') }}">
+                        <a href="{{ route('order.index') }}">
                             <i class="fa fa-files-o"></i>
                             <span>Đơn hàng</span>
                         </a>

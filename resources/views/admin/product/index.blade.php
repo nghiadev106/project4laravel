@@ -65,8 +65,8 @@
                                             <td>{{ $pro->name }}</td>
                                             <td>{{ $pro->slug }}</td>
                                             <td>{{ $pro->category->name }}</td>
-                                            <td>{{ $pro->product_price }}</td>
-                                            <td>{{ $pro->product_price_sale }}</td>
+                                            <td style="text-align: right;">{{ number_format($pro->product_price) }}</td>
+                                            <td style="text-align: right;">{{  number_format($pro->product_price_sale) }}</td>
                                             <td>{{ $pro->product_desc }}</td>
                                             <td>
                                             	 <?php

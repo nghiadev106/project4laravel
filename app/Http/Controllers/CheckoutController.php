@@ -22,8 +22,11 @@ class CheckoutController extends Controller
 
     public function send_checkout(Request $request)
     {
-       // dd($request->user_address);
-       //dd(Cart::content());
+       
+        $total=Cart::tax();
+        $subtotal=Cart::subtotal();
+        $tax=Cart::tax();
+
         $user_id=Auth::user()->id;
         $user_name=Auth::user()->name;
         $user_email=Auth::user()->email;
@@ -37,6 +40,9 @@ class CheckoutController extends Controller
             'address'=>$address,
             'mobile'=>$phone,
             'message'=>$message
+            //'subtotal'=>$subtotal,
+           // 'total'=>$total,
+           // 'tax'=>$tax
         ])){
             $order_id=$order->id;
             $cart=session()->get('cart');

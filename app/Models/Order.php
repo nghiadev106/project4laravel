@@ -14,7 +14,6 @@ class Order extends Model
     //     return $this->hasMany(OrderDetail::class,'order_id','id');
     // }
     protected $table='tbl_order';
-
     
     protected $fillable = [
         'user_id',
@@ -22,7 +21,10 @@ class Order extends Model
         'email',
         'address',
         'mobile',
-        'message'
+        'message',
+        'total',
+        'tax',
+        'subtotal'
     ];
 
     public function user(){

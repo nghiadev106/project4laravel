@@ -5,14 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Blog;
 
 class HomeController extends Controller
-{     
+{
     public function index()
     {
         $product_sale = Product::orderBy('created_at','ASC')->where('product_price_sale','>',0)->where('product_status',1)->paginate(10);
         $product_latest = Product::orderBy('created_at','ASC')->where('product_status',1)->paginate(10);
-        return View('pages.home',compact('product_sale','product_latest'));
+        $blogs = Blog::orderBy('created_at','ASC')->where('blog_status',1)->get()->take(8);
+        return View('pages.home',compact('product_sale','product_latest','blogs'));
     }
 
     public function shop()
@@ -41,5 +43,26 @@ class HomeController extends Controller
         return View('pages.detail',compact('product','related_product','product_sale'));
     }
 
+    public function blog_detail($id)
+    {
+        $blog =Blog::where('id',$id)->where('blog_status',1)->first();
+        $product_sale = Product::orderBy('created_at','ASC')->where('product_price_sale','>',0)->where('product_status',1)->get()->take(5);
+        $related_product=Product::where('id','!=',$id)->where('category_id',$product->category_id)->where('product_status',1)->get()->take(10);
+        return View('pages.detail',compact('product','related_product','product_sale'));
+    }
+
+    public function contact()
+    {
+        return View('pages.contact');
+    }
+    public function about()
+    {
+        return View('pages.about');
+    }
+
+    public function Blogs()
+    {
+        return View('pages.blogs');
+    }
 
 }

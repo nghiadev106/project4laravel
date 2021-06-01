@@ -90,14 +90,10 @@ class CategoryController extends Controller
      */
     public function destroy(category $category)
     {
-       
         if($category->products->count()>0){
-            dd($category);
             return redirect()->route('category.index')->with('error','Không thể xóa danh mục này');
         }else{
-            
             $category->delete();
-           
             return redirect()->route('category.index')->with('success','Xóa danh mục thành công');
         }
     }
